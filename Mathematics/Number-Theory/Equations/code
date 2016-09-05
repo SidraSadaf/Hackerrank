@@ -1,0 +1,66 @@
+/*Used concept of sieve of Eratosthenes and number of divisors in n
+Let prime factors of n be p1,p2,...pn, such that n=p1^k1 * p2^k2 * ...pn^kn,
+then, no of divisors of n=(k1+1)(k2+1)..(kn+1)
+Same concept is used in the function divisors() and result(), where divisors() calculates values of k's for each p and result()
+multiplies them together.
+Here, xy=n!/(x+y) which further solves to (x-n!)(y-n!)=(n!)^2.
+Thus the question reduces to finding the no of divisors of (n!)^2.
+If n!=p1^k1 * p2^k2 * ...pn^kn, no of divisors of n=(k1+1)(k2+1)..(kn+1)
+no of divisors of (n!)^2=(2*k1+1)(2*k2+1)..(2*kn+1).
+*/
+
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+vector<long long int> v;
+
+void sieve(long long int n){
+    bool prime[n+1];
+    memset(prime,true,sizeof(prime));
+    for(int i=2;i*i<=n;++i){
+        if(prime[i]==true){
+            for(int j=2*i;j<=n;j+=i){
+                prime[j]=false;
+            }
+        }
+    }
+    for(int i=2;i<=n;++i){
+        if(prime[i]==true)
+            v.push_back(i);
+    }
+}
+
+long long int divisors(long long int p,long long int n){
+    long long int count=0,m,j=1;
+    m=floor(n/pow(p,j++));
+    while(m>0){
+        count+=m;
+        m=floor(n/pow(p,j++));
+    }
+    return count;
+}
+
+long long int result(long long int n){
+    int i=0;
+    long long int total=1;
+    long long int len=v.size();
+    while(i<len){
+        total*=(2*divisors(v[i],n)+1);
+        total%=1000007;
+        i++;
+    }
+    return total;
+}
+
+int main() {
+    long long int n;
+    cin>>n;
+    sieve(n);
+    cout<<result(n);
+    return 0;
+}
