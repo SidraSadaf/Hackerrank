@@ -1,0 +1,22 @@
+/*
+Since the inputs given are too large to be handled ny any normal data type pf C/C++ (Java, BigInteger), strings are used to take input 
+and then further reduced to large int.
+
+We want to calculate A^BmodT.
+A=A1*T+A2
+Therefore A^BmodT=A2^BmodT
+According to Fermat's theorem, a^bmodp=1(modp)
+Now the question dictates the calculation to be a^b % p. If b is a multiple of (p - 1) say (p - 1)x, then a^b % p is a^((p - 1)x) % p 
+which is 1 since 1^x(mod p) = 1(mod p). Now if b is not a multiple of (p - 1) say ((p - 1)x + y), then we have a^b % p as (a^(p - 1)x + y) 
+% p. Split this into two terms and take mods to multiply (its a property of mods). ((a^(p - 1)x) % p) * (a^y % p) = 1^(x)*(a^y % p) which 
+is the answer to your question. y = b % (p - 1) = ((p - 1)x + y) % (p - 1). 
+So we try to reduce B to D(T-1)+E
+
+The question now become A2^EmodT, which is much easier to calculate.
+
+Also the concept of exponentiation by squaring is used, i.e.,
+x^n= x((x^2))^(n-1)/2   when n is odd
+     (x^2)^(n/2)        when n is even
+    
+So if we just multiply A2 E times and use exponentiation by squaring, complexity reduces to O(logE)
+*/
