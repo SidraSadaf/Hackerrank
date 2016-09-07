@@ -1,0 +1,38 @@
+/*
+Step 1: Sort input vector
+
+Step 2: Work on each fragment consisting of k elements
+        Remember, max and min of each fragment is already calculated as vector is sorted.
+*/
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    vector<long> list;
+    for (int i=0; i<n; i++){
+        long x;
+        cin>>x;
+        list.push_back(x);
+    }
+    
+    sort(list.begin(),list.end());  
+    
+    int i=0,j=n-1;
+    long unfair=INT_MAX;
+    for(;i<=n-k;++i){
+        if((list[i+k-1]-list[i])<unfair){
+            unfair=list[i+k-1]-list[i];
+        }
+    }
+    
+    cout << unfair << "\n";
+    return 0;
+}
