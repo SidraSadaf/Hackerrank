@@ -1,0 +1,39 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+int result(vector<int> v,int n,int k){
+    if(n==k){
+        int sum=0;
+        for(int i=0;i<n;++i){
+            sum+=v[i];
+        }
+        return sum;
+    }
+    
+    int ans=0;
+    int i=0;
+    sort(v.begin(),v.end(),greater<int>());
+    while(i<k){
+        int total=0;
+        for(int j=i;j<n;j+=k){
+            ans+=((total+1)*v[j]);
+            total++;
+        }
+        i++;
+    }
+    
+    return ans;
+}
+
+int main(){
+    int n,k;
+    cin>>n>>k;
+    vector<int> v(n);
+    for(int i=0;i<n;++i){
+        cin>>v[i];
+    }
+    cout<<result(v,n,k);
+    return 0;
+}
