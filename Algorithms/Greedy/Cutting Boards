@@ -1,0 +1,59 @@
+/*
+A simple problem with rather a complex implementation. The question can be well understood by visualing each step of cut.
+*/
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+long long cut(vector<long long> h,vector<long long> v,int m,int n){
+    sort(v.begin(),v.end(),greater<long long>());
+    sort(h.begin(),h.end(),greater<long long>());
+    long i,j,vs=1,hs=1;                           //vs=no of vertical segments, hs=no of horizontal segments. Each horizontal cut produces 2 horizonatl segment and each vertical cut 2 vertical segments.
+    long long total=0;
+    for(i=0,j=0;i<m&&j<n;){
+        if(h[i]>=v[j]){
+            total+=(h[i]*vs)%1000000007;
+            hs++;
+            i++;
+        }
+        else{
+            total+=(v[j]*hs)%1000000007;
+            vs++;
+            j++;
+        }
+    }
+    while(i<m){
+        total+=(h[i]*vs)%1000000007;
+        hs++;
+        i++;
+    }
+    while(j<n){
+        total+=(v[j]*hs)%1000000007;
+        vs++;
+        j++;
+    }
+    return total%1000000007;
+}
+
+int main() {
+    int t;
+    cin>>t;
+    for(int i=0;i<t;++i){
+        long m,n;
+        cin>>m>>n;
+        vector<long long> h(m);
+        vector<long long> v(n);
+        for(int i=0;i<m-1;++i){
+            cin>>h[i];
+        }
+        for(int i=0;i<n-1;++i){
+            cin>>v[i];
+        }
+        cout<<cut(h,v,m,n)<<endl;
+    }
+    return 0;
+}
