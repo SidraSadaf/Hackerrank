@@ -1,0 +1,13 @@
+bool has_cycle(Node* head) {
+    if(head == NULL || head->next == NULL)
+        return false;
+    Node *slow = head;
+    Node *fast = head->next->next;
+    while(fast != slow){
+        if(fast == NULL)
+            return false;
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    return true;
+}
