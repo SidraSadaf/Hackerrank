@@ -1,0 +1,15 @@
+int GetNode(Node *head,int positionFromTail)
+{
+    int n = 0;
+    Node *first, *second;
+    first = second = head;
+    while(n < positionFromTail){
+        first = first->next;
+        n++;
+    }
+    while(first->next != NULL){
+        second = second->next;
+        first = first->next;
+    }
+    return second->data;
+}
