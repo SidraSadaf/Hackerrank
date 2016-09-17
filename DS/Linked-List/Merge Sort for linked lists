@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+
+struct Node{
+  int data;
+  struct Node *next;
+};
+
+//technique of reaching middle of linked list, fast/slow technique
+void splitLL(Node **p, Node **a, Node **b){
+  Node *fast, *slow;
+  
+  if(*p == NULL || *p->next == NULL){
+    a = p;
+    b = NULL;
+  }
+  else{
+    slow = *p;
+    fast = *p->next;
+    
+    while(fast != NULL){
+      fast = fast ->next;
+      if(fast != NULL){
+        slow = slow->next;
+        fast = fast->next;
+      }
+    }
+  }
+  
+  a = p;
+  *b = slow->next;
+  slow->next = NULL;
+}
+
+Node *sortedMerge(Node *a, Node *b){
+  Node *result = NULL;
+  
+  if(a == NULL)
+    return b;
+  if(b == NULL)
+    return a;
+    
+  if(a->data < b->data){
+    result = a;
+    a->next = sortedMerge(a->next, b);
+  }
+  else{
+    result = b;
+    b->next = sortedMerge(a, b->next);
+  }
+  
+  return result;
+}
+
+void mergeSort(Node **p){
+  Node *a, *b;
+  
+  if( *p == NULL || *p->next == NULL)
+    return;
+  
+  splitLL(p, &a, &b);
+  
+  mergeSort(&a);
+  mergeSort(&b);
+  
+  *p = sortedMerge(a, b);
+}
+
+int main(){
+  Node a = new Node(9);
+		a.next = new Node(3);
+		a.next.next = new Node(4);
+		a.next.next.next = new Node(2);
+		a.next.next.next.next = new Node(5);
+		a.next.next.next.next.next = new Node(1);
+		mergeSort(&a);
+}
